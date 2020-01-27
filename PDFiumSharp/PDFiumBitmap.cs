@@ -6,11 +6,10 @@ License: Microsoft Reciprocal License (MS-RL)
 */
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Text;
 using PDFiumSharp.Types;
 using System.IO;
 using System.Runtime.InteropServices;
+using PDFiumSharp.Enums;
 
 namespace PDFiumSharp
 {
@@ -37,11 +36,11 @@ namespace PDFiumSharp
 
 		static int GetBytesPerPixel(BitmapFormats format)
 		{
-			if (format == BitmapFormats.FPDFBitmap_BGR)
+			if (format == BitmapFormats.BGR)
 				return 3;
-			if (format == BitmapFormats.FPDFBitmap_BGRA || format == BitmapFormats.FPDFBitmap_BGRx)
+			if (format == BitmapFormats.BGRA || format == BitmapFormats.BGRx)
 				return 4;
-			if (format == BitmapFormats.FPDFBitmap_Gray)
+			if (format == BitmapFormats.Gray)
 				return 1;
 			throw new ArgumentOutOfRangeException(nameof(format));
 		}
@@ -56,10 +55,10 @@ namespace PDFiumSharp
 		/// <remarks>
 		/// A bitmap created with this overload always uses 4 bytes per pixel.
 		/// Depending on <paramref name="hasAlpha"/> the <see cref="Format"/> is then either
-		/// <see cref="BitmapFormats.FPDFBitmap_BGRA"/> or <see cref="BitmapFormats.FPDFBitmap_BGRx"/>.
+		/// <see cref="BitmapFormats.BGRA"/> or <see cref="BitmapFormats.BGRx"/>.
 		/// </remarks>
 		public PDFiumBitmap(int width, int height, bool hasAlpha)
-			: this(PDFium.FPDFBitmap_Create(width, height, hasAlpha), hasAlpha ? BitmapFormats.FPDFBitmap_BGRA : BitmapFormats.FPDFBitmap_BGRx) { }
+			: this(PDFium.FPDFBitmap_Create(width, height, hasAlpha), hasAlpha ? BitmapFormats.BGRA : BitmapFormats.BGRx) { }
 
 		/// <summary>
 		/// Creates a new <see cref="PDFiumBitmap"/> using memory allocated by the caller.
@@ -141,7 +140,7 @@ namespace PDFiumSharp
 
 			public BmpStream(PDFiumBitmap bitmap, double dpiX, double dpiY)
 			{
-				if (bitmap.Format == BitmapFormats.FPDFBitmap_Gray)
+				if (bitmap.Format == BitmapFormats.Gray)
 					throw new NotSupportedException($"Bitmap format {bitmap.Format} is not yet supported.");
 				
 				_bitmap = bitmap;
@@ -179,7 +178,7 @@ namespace PDFiumSharp
 					writer.Write(MaskR);
 					writer.Write(MaskG);
 					writer.Write(MaskB);
-					if (bitmap.Format == BitmapFormats.FPDFBitmap_BGRA)
+					if (bitmap.Format == BitmapFormats.BGRA)
 						writer.Write(MaskA);
 				}
 				return header;

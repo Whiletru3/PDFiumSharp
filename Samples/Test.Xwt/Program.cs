@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xwt;
 using Xwt.Drawing;
 using PDFiumSharp;
-using System.IO;
+using PDFiumSharp.Enums;
 
 namespace Test.Xwt
 {
 	class Program
 	{
 		[STAThread]
-		static void Main(string[] args)
+		static void Main()
 		{
 			Application.Initialize();
 			Window window = new Window();

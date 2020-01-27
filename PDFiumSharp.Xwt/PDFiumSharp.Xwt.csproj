@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xwt">
-      <Version>0.2.5</Version>
+      <Version>0.2.218</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>PDFium.LinuxV2</id>
+    <version>1.0.1</version>
+    <authors>Foxit, Google</authors>
+    <owners>Zubastic</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/chromium/pdfium/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/chromium/pdfium/</projectUrl>
+    <description>PDFium library binaries for linux (pdfium_x64.so, pdfium_x86.so, libpdfium.so). Libs from repo: https://github.com/bblanchon/pdfium-binaries </description>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <tags>PDF PDFium Renderer Rendering</tags>
+  </metadata>
+  <files>
+    <file src="pdfium_x64.so" target="build" />
+    <file src="pdfium_x86.so" target="build" />
+    <file src="libpdfium.so" target="build" />
+    <file src="PDFium.LinuxV2.props" target="build" />
+  </files>
+</package>

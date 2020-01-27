@@ -8,7 +8,6 @@ License: Microsoft Reciprocal License (MS-RL)
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace PDFiumSharp
@@ -76,7 +75,7 @@ namespace PDFiumSharp
 		/// <seealso cref="PDFium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
 		public bool Insert(int index, PdfDocument sourceDocument, params int[] srcPageIndices)
 		{
-            bool result = false;
+            bool result;
             if (index <= _pages.Count)
             {
                 result = PDFium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, index, srcPageIndices);
@@ -110,7 +109,7 @@ namespace PDFiumSharp
 		/// </summary>
 		public PdfPage Insert(int index, double width, double height)
 		{
-            PdfPage page=null;
+            PdfPage page;
             if (index <= _pages.Count)
 			{
                 page = PdfPage.New(_doc, index, width, height);

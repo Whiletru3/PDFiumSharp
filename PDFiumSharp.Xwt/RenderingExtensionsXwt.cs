@@ -6,11 +6,7 @@ License: Microsoft Reciprocal License (MS-RL)
 */
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xwt;
+using PDFiumSharp.Enums;
 using Xwt.Drawing;
 
 namespace PDFiumSharp
@@ -30,11 +26,11 @@ namespace PDFiumSharp
 			if (renderTarget == null)
 				throw new ArgumentNullException(nameof(renderTarget));
 
-			(var left, var top, var width, var height) = rectDest;
+			var (left, top, width, height) = rectDest;
 
 			byte[] pixelBuffer = new byte[width * height * 4];
 			using (var pin = PinnedGCHandle.Pin(pixelBuffer))
-			using (var tmpBitamp = new PDFiumBitmap(rectDest.width, rectDest.height, BitmapFormats.FPDFBitmap_BGRA, pin.Pointer, rectDest.width * 4))
+			using (var tmpBitamp = new PDFiumBitmap(rectDest.width, rectDest.height, BitmapFormats.BGRA, pin.Pointer, rectDest.width * 4))
 			{
 				page.Render(tmpBitamp, (0, 0, width, height), orientation, flags);
 				for (int y = Math.Max(0, top); y < Math.Min(renderTarget.PixelHeight, top + height); y++)

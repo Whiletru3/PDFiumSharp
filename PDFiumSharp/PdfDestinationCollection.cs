@@ -8,7 +8,6 @@ License: Microsoft Reciprocal License (MS-RL)
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PDFiumSharp
 {

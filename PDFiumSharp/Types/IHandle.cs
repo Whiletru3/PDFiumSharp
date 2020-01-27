@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PDFiumSharp.Types
+﻿namespace PDFiumSharp.Types
 {
     public interface IHandle<T>
     {

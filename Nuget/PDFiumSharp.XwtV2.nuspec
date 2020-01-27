@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>PDFiumSharp.XwtV2</id>
+    <version>1.0.0</version>
+    <authors>ArgusMagnus</authors>
+    <owners>Zubastic</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Zubastic/PDFiumSharp/blob/master/licenseUrl</licenseUrl>
+    <projectUrl>https://github.com/Zubastic/PDFiumSharp</projectUrl>
+    <description>Mono XWT extensions for PDFiumSharp.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>C# PDF PDFium Renderer Rendering</tags>
+    <dependencies>
+      <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      <dependency id="Xwt" version="0.2.218" />
+      <dependency id="PDFiumSharpV2" version="[1,2)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\PDFiumSharp.Xwt\bin\Release\PDFiumSharp.Xwt.dll" target="lib\net461" />
+    <file src="..\PDFiumSharp.Xwt\bin\Release\PDFiumSharp.Xwt.xml" target="lib\net461" />
+  </files>
+</package>

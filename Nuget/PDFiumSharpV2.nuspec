@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>PDFiumSharpV2</id>
+    <version>1.0.0</version>
+    <authors>ArgusMagnus</authors>
+    <owners>Zubastic</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Zubastic/PDFiumSharp/blob/master/licenseUrl</licenseUrl>
+    <projectUrl>https://github.com/Zubastic/PDFiumSharp</projectUrl>
+    <description> C#/.NET Wrapper for the PDFium library. Add also a package for the native binaries (currently only PDFium.Windows is provided) or provide them (pdfium_x64.dll, pdfium_x86.dll) yourself.</description>
+    <releaseNotes>Upgraded to NetStandart 2.0. Updated methods and libs.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>C# PDF PDFium Renderer Rendering</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="NETStandard.Library" version="2.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\PDFiumSharp\bin\Release\netstandard2.0\PDFiumSharp.dll" target="lib\netstandard2.0" />
+    <file src="..\PDFiumSharp\bin\Release\netstandard2.0\PDFiumSharp.xml" target="lib\netstandard2.0" />
+  </files>
+</package>

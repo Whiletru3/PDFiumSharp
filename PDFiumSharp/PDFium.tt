@@ -12,7 +12,7 @@ License: Microsoft Reciprocal License (MS-RL)
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
 const string DllName32 = "pdfium_x86";
 const string DllName64 = "pdfium_x64";
-const string CallingConvention = "CallingConvention.StdCall";
+const string CallingConvention = "CallingConvention.Cdecl";
 
 var Imports = new[] {
 	// https://pdfium.googlesource.com/pdfium/+/master/public/fpdfview.h
@@ -27,6 +27,21 @@ var Imports = new[] {
 		  Attributes = new string[] { } },
 
 	new { Method = "void FPDF_DestroyLibrary()",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "void FPDF_SetSandBoxPolicy(int policy, bool enable)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "void FPDF_SetPrintTextWithGDI(bool use_gdi)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDF_SetPrintMode(int mode)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -56,6 +71,11 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "bool FPDF_DocumentHasValidCrossReferenceTable(FPDF_DOCUMENT document)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "DocumentPermissions FPDF_GetDocPermissions(FPDF_DOCUMENT document)",
 		  AccessModifier = "public",
 		  Documentation = new[] { "<seealso cref='PdfDocument.Permissions'/>" },
@@ -76,14 +96,34 @@ var Imports = new[] {
 		  Documentation = new string[] { "<seealso cref='PdfPageCollection[int]'/>", "<seealso cref='PdfDocument.Pages'/>" },
 		  Attributes = new string[] { } },
 
+	new { Method = "float FPDF_GetPageWidthF(FPDF_PAGE page)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "double FPDF_GetPageWidth(FPDF_PAGE page)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { "<seealso cref='PdfPage.Width'/>" },
 		  Attributes = new string[] { } },
 
+	new { Method = "float FPDF_GetPageHeightF(FPDF_PAGE page)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "double FPDF_GetPageHeight(FPDF_PAGE page)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { "<seealso cref='PdfPage.Height'/>" },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDF_GetPageBoundingBox(FPDF_PAGE page, FS_RECTF rect)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDF_GetPageSizeByIndexF(FPDF_DOCUMENT document, int page_index, FS_SIZEF size)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "bool FPDF_GetPageSizeByIndex(FPDF_DOCUMENT document, int page_index, out double width, out double height)",
@@ -97,6 +137,11 @@ var Imports = new[] {
 		  Attributes = new string[] { } },
 
 	new { Method = "void FPDF_RenderPageBitmapWithMatrix(FPDF_BITMAP bitmap, FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipping, RenderingFlags flags)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_RECORDER FPDF_RenderPageSkp(FPDF_PAGE page, int size_x, int size_y)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -129,6 +174,11 @@ var Imports = new[] {
 	new { Method = "FPDF_BITMAP FPDFBitmap_CreateEx(int width, int height, BitmapFormats format, IntPtr first_scan, int stride)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { "<seealso cref='PDFiumBitmap.PDFiumBitmap(int, int, BitmapFormats, IntPtr, int)'/>" },
+		  Attributes = new string[] { } },
+
+	new { Method = "BitmapFormats FPDFBitmap_GetFormat(FPDF_BITMAP bitmap)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "void FPDFBitmap_FillRect(FPDF_BITMAP bitmap, int left, int top, int width, int height, FPDF_COLOR color)",
@@ -172,6 +222,16 @@ var Imports = new[] {
 		  Attributes = new string[] { } },
 
 	new { Method = "FPDF_PAGERANGE FPDF_VIEWERREF_GetPrintPageRange(FPDF_DOCUMENT document)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDF_VIEWERREF_GetPrintPageRangeCount(FPDF_PAGERANGE pagerange)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDF_VIEWERREF_GetPrintPageRangeElement(FPDF_PAGERANGE pagerange, uint index)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -257,9 +317,14 @@ var Imports = new[] {
 		  Documentation = new string[] { "<seealso cref='PDFium.FPDFAction_GetURIPath(FPDF_DOCUMENT, FPDF_ACTION)'/>" },
 		  Attributes = new string[] { } },
 
-	new { Method = "int FPDFDest_GetPageIndex(FPDF_DOCUMENT document, FPDF_DEST dest)",
+	new { Method = "int FPDFDest_GetDestPageIndex(FPDF_DOCUMENT document, FPDF_DEST dest)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { "<seealso cref='PdfDestination.PageIndex'/>", "<seealso cref='PdfDocument.Destinations'/>" },
+		  Attributes = new string[] { } },
+
+	new { Method = "ZoomModes FPDFDest_GetView(FPDF_DEST dest, out uint pNumParams, float pParams)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "bool FPDFDest_GetLocationInPage(FPDF_DEST dest, out bool hasXCoord, out bool hasYCoord, out bool hasZoom, out float x, out float y, out float zoom)",
@@ -350,7 +415,12 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "int FPDFPage_CountObject(FPDF_PAGE page)",
+	new { Method = "bool FPDFPage_RemoveObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFPage_CountObjects(FPDF_PAGE page)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -370,7 +440,17 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "void FPDFPageObj_Destroy(FPDF_PAGEOBJECT page_obj)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "bool FPDFPageObj_HasTransparency(FPDF_PAGEOBJECT pageObject)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "PageObjTypes FPDFPageObj_GetType(FPDF_PAGEOBJECT page_object)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -390,6 +470,81 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "int FPDFPageObj_CountMarks(FPDF_PAGEOBJECT page_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_PAGEOBJECTMARK FPDFPageObj_GetMark(FPDF_PAGEOBJECT page_object, uint index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_PAGEOBJECTMARK FPDFPageObj_AddMark(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string name)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_RemoveMark(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_GetName(FPDF_PAGEOBJECTMARK mark, ref byte buffer, uint buflen, out uint out_buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFPageObjMark_CountParams(FPDF_PAGEOBJECTMARK mark)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_GetParamKey(FPDF_PAGEOBJECTMARK mark, uint index, ref byte buffer, uint buflen, out uint out_buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "ObjectTypes FPDFPageObjMark_GetParamValueType(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_GetParamIntValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, out int out_value)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_GetParamStringValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_GetParamBlobValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_SetIntParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, int value)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_SetStringParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_SetBlobParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte value, uint value_len)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObjMark_RemoveParam(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "bool FPDFImageObj_LoadJpegFile(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead)",
 		  AccessModifier = "private",
 		  Documentation = new string[] { },
@@ -400,12 +555,47 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "bool FPDFImageObj_GetMatrix(FPDF_PAGEOBJECT image_object, out double a, out double b, out double c, out double d, out double e, out double f)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "bool FPDFImageObj_SetMatrix(FPDF_PAGEOBJECT image_object, double a, double b, double c, double d, double e, double f)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "bool FPDFImageObj_SetBitmap(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_BITMAP bitmap)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_BITMAP FPDFImageObj_GetBitmap(FPDF_PAGEOBJECT image_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDFImageObj_GetImageDataDecoded(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDFImageObj_GetImageDataRaw(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFImageObj_GetImageFilterCount(FPDF_PAGEOBJECT image_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDFImageObj_GetImageFilter(FPDF_PAGEOBJECT image_object, int index, ref byte buffer, uint buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFImageObj_GetImageMetadata(FPDF_PAGEOBJECT image_object, FPDF_PAGE page, out FPDF_IMAGEOBJ_METADATA metadata)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -420,17 +610,87 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "bool FPDFPath_SetStrokeColor(FPDF_PAGEOBJECT path, uint R, uint G, uint B, uint A)",
+	new { Method = "bool FPDFPageObj_GetBounds(FPDF_PAGEOBJECT page_object, out float left, out float bottom, out float right, out float top)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "bool FPDFPath_SetStrokeWidth(FPDF_PAGEOBJECT path, float width)",
+	new { Method = "void FPDFPageObj_SetBlendMode(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string blend_mode)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "bool FPDFPath_SetFillColor(FPDF_PAGEOBJECT path, uint R, uint G, uint B, uint A)",
+	new { Method = "bool FPDFPageObj_SetStrokeColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_GetStrokeColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_SetStrokeWidth(FPDF_PAGEOBJECT page_object, float width)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_GetStrokeWidth(FPDF_PAGEOBJECT page_object, out float width)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFPageObj_GetLineJoin(FPDF_PAGEOBJECT page_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_SetLineJoin(FPDF_PAGEOBJECT page_object, int line_join)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFPageObj_GetLineCap(FPDF_PAGEOBJECT page_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_SetLineCap(FPDF_PAGEOBJECT page_object, int line_cap)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_SetFillColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPageObj_GetFillColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFPath_CountSegments(FPDF_PAGEOBJECT path)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_PATHSEGMENT FPDFPath_GetPathSegment(FPDF_PAGEOBJECT path, int index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPathSegment_GetPoint(FPDF_PATHSEGMENT segment, out float x, out float y)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFPathSegment_GetType(FPDF_PATHSEGMENT segment)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPathSegment_GetClose(FPDF_PATHSEGMENT segment)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -460,18 +720,93 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "bool FPDFPath_GetDrawMode(FPDF_PAGEOBJECT path, out PathFillModes fillmode, out bool stroke)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPath_GetMatrix(FPDF_PAGEOBJECT path, FS_MATRIX matrix)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPath_SetMatrix(FPDF_PAGEOBJECT path, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "FPDF_PAGEOBJECT FPDFPageObj_NewTextObj(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font, float font_size)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "bool FPDFText_SetText(FPDF_PAGEOBJECT text_object, [MarshalAs(UnmanagedType.LPStr)] string text)",
+	new { Method = "bool FPDFText_SetText(FPDF_PAGEOBJECT text_object, [MarshalAs(UnmanagedType.LPWStr)] string text)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "FPDF_FONT FPDFText_LoadFont(FPDF_DOCUMENT document, ref byte data, uint size, FontTypes font_type, bool cid)",
 		  AccessModifier = "private",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_FONT FPDFText_LoadStandardFont(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFTextObj_GetMatrix(FPDF_PAGEOBJECT text, FS_MATRIX matrix)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "float FPDFTextObj_GetFontSize(FPDF_PAGEOBJECT text)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "void FPDFFont_Close(FPDF_FONT font)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_PAGEOBJECT FPDFPageObj_CreateTextObj(FPDF_DOCUMENT document, FPDF_FONT font, float font_size)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_TEXT_RENDERMODE FPDFTextObj_GetTextRenderMode(FPDF_PAGEOBJECT text)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFTextObj_SetTextRenderMode(FPDF_PAGEOBJECT text, FPDF_TEXT_RENDERMODE render_mode)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDFTextObj_GetFontName(FPDF_PAGEOBJECT text, ref byte buffer, uint length)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDFTextObj_GetText(FPDF_PAGEOBJECT text_object, FPDF_TEXTPAGE text_page, ref byte buffer, uint length)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFFormObj_CountObjects(FPDF_PAGEOBJECT form_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_PAGEOBJECT FPDFFormObj_GetObject(FPDF_PAGEOBJECT form_object, uint index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFFormObj_GetMatrix(FPDF_PAGEOBJECT form_object, FS_MATRIX matrix)",
+		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
@@ -491,6 +826,11 @@ var Imports = new[] {
 	new { Method = "bool FPDF_ImportPages(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc, [MarshalAs(UnmanagedType.LPStr)] string pagerange, int index)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { "<seealso cref='PdfPageCollection.Insert(int, PdfDocument, int[])'/>", "<seealso cref='PdfPageCollection.Add(PdfDocument, int[])'/>", "<seealso cref='PdfDocument.Pages'/>" },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_DOCUMENT FPDF_ImportNPagesToOne(FPDF_DOCUMENT src_doc, float output_width, float output_height, int num_pages_on_x_axis, int num_pages_on_y_axis)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "bool FPDF_CopyViewerPreferences(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc)",
@@ -562,6 +902,21 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "int FPDF_StructElement_GetMarkedContentID(FPDF_STRUCTELEMENT struct_element)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDF_StructElement_GetType(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "uint FPDF_StructElement_GetTitle(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "int FPDF_StructElement_CountChildren(FPDF_STRUCTELEMENT struct_element)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
@@ -598,7 +953,52 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "void FPDFText_GetCharBox(FPDF_TEXTPAGE text_page, int index, out double left, out double right, out double bottom, out double top)",
+	new { Method = "uint FPDFText_GetFontInfo(FPDF_TEXTPAGE text_page, int index, ref byte buffer, uint buflen, out int flags)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFText_GetFontWeight(FPDF_TEXTPAGE text_page, int index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_TEXT_RENDERMODE FPDFText_GetTextRenderMode(FPDF_TEXTPAGE text_page, int index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFText_GetFillColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFText_GetStrokeColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "float FPDFText_GetCharAngle(FPDF_TEXTPAGE text_page, int index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFText_GetCharBox(FPDF_TEXTPAGE text_page, int index, out double left, out double right, out double bottom, out double top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFText_GetLooseCharBox(FPDF_TEXTPAGE text_page, int index, FS_RECTF rect)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFText_GetMatrix(FPDF_TEXTPAGE text_page, int index, FS_MATRIX matrix)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFText_GetCharOrigin(FPDF_TEXTPAGE text_page, int index, out double x, out double y)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -618,7 +1018,7 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "void FPDFText_GetRect(FPDF_TEXTPAGE text_page, int rect_index, out double left, out double top, out double right, out double bottom)",
+	new { Method = "bool FPDFText_GetRect(FPDF_TEXTPAGE text_page, int rect_index, out double left, out double top, out double right, out double bottom)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -678,7 +1078,12 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
-	new { Method = "void FPDFLink_GetRect(FPDF_PAGELINK link_page, int link_index, int rect_index, out double left, out double top, out double right, out double bottom)",
+	new { Method = "bool FPDFLink_GetRect(FPDF_PAGELINK link_page, int link_index, int rect_index, out double left, out double top, out double right, out double bottom)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFLink_GetTextRange(FPDF_PAGELINK link_page, int link_index, out int start_char_index, out int char_count)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -699,6 +1104,21 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "void FPDFPage_SetBleedBox(FPDF_PAGE page, float left, float bottom, float right, float top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "void FPDFPage_SetTrimBox(FPDF_PAGE page, float left, float bottom, float right, float top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "void FPDFPage_SetArtBox(FPDF_PAGE page, float left, float bottom, float right, float top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "bool FPDFPage_GetMediaBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
@@ -709,12 +1129,47 @@ var Imports = new[] {
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
+	new { Method = "bool FPDFPage_GetBleedBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPage_GetTrimBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "bool FPDFPage_GetArtBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
 	new { Method = "bool FPDFPage_TransFormWithClip(FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipRect)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
 
 	new { Method = "void FPDFPageObj_TransformClipPath(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_CLIPPATH FPDFPageObj_GetClipPath(FPDF_PAGEOBJECT page_object)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFClipPath_CountPaths(FPDF_CLIPPATH clip_path)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "int FPDFClipPath_CountPathSegments(FPDF_CLIPPATH clip_path, int path_index)",
+		  AccessModifier = "public",
+		  Documentation = new string[] { },
+		  Attributes = new string[] { } },
+
+	new { Method = "FPDF_PATHSEGMENT FPDFClipPath_GetPathSegment(FPDF_CLIPPATH clip_path, int path_index, int segment_index)",
 		  AccessModifier = "public",
 		  Documentation = new string[] { },
 		  Attributes = new string[] { } },
@@ -747,6 +1202,7 @@ License: Microsoft Reciprocal License (MS-RL)
 // DO NOT MODIFY
 using System;
 using System.Runtime.InteropServices;
+using PDFiumSharp.Enums;
 using PDFiumSharp.Types;
 
 namespace PDFiumSharp

@@ -5,9 +5,6 @@ Copyright (C) 2017 Tobias Meyer
 License: Microsoft Reciprocal License (MS-RL)
 */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
 using PDFiumSharp.Types;
 
 namespace PDFiumSharp
@@ -17,7 +14,7 @@ namespace PDFiumSharp
 		public PdfDocument Document { get; }
 		public string Name { get; }
 
-		public int PageIndex => PDFium.FPDFDest_GetPageIndex(Document.Handle, Handle);
+		public int PageIndex => PDFium.FPDFDest_GetDestPageIndex(Document.Handle, Handle);
 
 		public (float X, float Y, float Zoom) LocationInPage
 		{

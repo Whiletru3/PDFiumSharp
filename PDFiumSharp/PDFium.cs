@@ -13,6 +13,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Collections.Generic;
+using PDFiumSharp.Enums;
 
 namespace PDFiumSharp
 {
@@ -36,7 +37,7 @@ namespace PDFiumSharp
 
 		static bool Initialize()
 		{
-			try { PDFium.FPDF_InitLibrary(); }
+			try { FPDF_InitLibrary(); }
 			catch { return false; }
 			return true;
 		}
@@ -74,30 +75,31 @@ namespace PDFiumSharp
 		}
 
 		#region https://pdfium.googlesource.com/pdfium/+/master/public/fpdfview.h
-
-		/// <summary>
-		/// Loads a PDF document from memory.
-		/// </summary>
-		/// <param name="data">The data to load the document from.</param>
-		/// <param name="index">The index of the first byte to be copied from <paramref name="data"/>.</param>
-		/// <param name="count">The number of bytes to copy from <paramref name="data"/> or a negative value to copy all bytes.</param>
-		public static FPDF_DOCUMENT FPDF_LoadDocument(byte[] data, int index = 0, int count = -1, string password = null)
+        /// <summary>
+        /// Loads a PDF document from memory.
+        /// </summary>
+        /// <param name="data">The data to load the document from.</param>
+        /// <param name="index">The index of the first byte to be copied from <paramref name="data"/>.</param>
+        /// <param name="count">The number of bytes to copy from <paramref name="data"/> or a negative value to copy all bytes.</param>
+        /// <param name="password">Pdf password</param>
+        public static FPDF_DOCUMENT FPDF_LoadDocument(byte[] data, int index = 0, int count = -1, string password = null)
 		{
 			if (count < 0)
 				count = data.Length - index;
 			return FPDF_LoadMemDocument(ref data[index], count, password);
 		}
 
-        /// <summary>
-        /// Loads a PDF document from '<paramref name="count"/>' bytes read from a stream.
-        /// </summary>
-        /// <param name="fileRead"></param>
-        /// <param name="count">
-        /// The number of bytes to read from the <paramref name="stream"/>.
-        /// If the value is equal to or smaller than 0, the stream is read to the end.
-        /// </param>
-        /// <param name="stream"></param>
-        public static FPDF_DOCUMENT FPDF_LoadDocument(Stream stream, FPDF_FILEREAD fileRead, int count = 0, string password = null)
+		/// <summary>
+		/// Loads a PDF document from '<paramref name="count"/>' bytes read from a stream.
+		/// </summary>
+		/// <param name="fileRead"></param>
+		/// <param name="count">
+		/// The number of bytes to read from the <paramref name="stream"/>.
+		/// If the value is equal to or smaller than 0, the stream is read to the end.
+		/// </param>
+		/// <param name="stream"></param>
+		/// <param name="password">Pdf password</param>
+		public static FPDF_DOCUMENT FPDF_LoadDocument(Stream stream, FPDF_FILEREAD fileRead, int count = 0, string password = null)
         {
             return FPDF_LoadCustomDocument(fileRead, password);
         }

@@ -1,6 +1,7 @@
-nuget pack PDFium.Windows.nuspec
-nuget pack PDFiumSharp.nuspec
-nuget pack PDFiumSharp.GdiPlus.nuspec
-nuget pack PDFiumSharp.Wpf.nuspec
-nuget pack PDFiumSharp.Xwt.nuspec
+nuget pack PDFium.LinuxV2.nuspec
+nuget pack PDFium.WindowsV2.nuspec
+nuget pack PDFiumSharpV2.nuspec
+nuget pack PDFiumSharp.GdiPlusV2.nuspec
+nuget pack PDFiumSharp.WpfV2.nuspec
+nuget pack PDFiumSharp.XwtV2.nuspec
 pause

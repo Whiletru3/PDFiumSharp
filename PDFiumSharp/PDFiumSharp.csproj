@@ -1,11 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <AssemblyVersion>0.1.2.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Copyright>Copyright © Tobias Meyer 2017</Copyright>
     <Platforms>AnyCPU;x64</Platforms>
+    <Product>PDFiumSharp</Product>
+    <PackageId>PDFiumSharp.NetStandart2.0</PackageId>
+    <Version>1.0.0</Version>
+    <Description>C#/.NET Wrapper for the PDFium library. Add also a package for the native binaries (currently only PDFium.Windows is provided) or provide them (pdfium_x64.dll, pdfium_x86.dll) yourself.</Description>
+    <PackageProjectUrl>https://github.com/Zubastic/PDFiumSharp/blob/master/README.md</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Zubastic/PDFiumSharp</RepositoryUrl>
+    <PackageTags>PDF PDFium Rendering C# Renderer</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,12 +24,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.4\PDFiumSharp.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\PDFiumSharp.xml</DocumentationFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\Release\netstandard1.4\PDFiumSharp.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\PDFiumSharp.xml</DocumentationFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -36,7 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

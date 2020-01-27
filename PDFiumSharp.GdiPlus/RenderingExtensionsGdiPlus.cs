@@ -6,11 +6,8 @@ License: Microsoft Reciprocal License (MS-RL)
 */
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using PDFiumSharp.Enums;
 
 namespace PDFiumSharp
 {
@@ -40,7 +37,7 @@ namespace PDFiumSharp
 		/// Renders the page to a <see cref="Bitmap"/>
 		/// </summary>
 		/// <param name="page">The page which is to be rendered.</param>
-		/// <param name="renderTarget">The bitmap to which the page is to be rendered.</param>
+		/// <param name="bitmap">The bitmap to which the page is to be rendered.</param>
 		/// <param name="orientation">The orientation at which the page is to be rendered.</param>
 		/// <param name="flags">The flags specifying how the page is to be rendered.</param>
 		public static void Render(this PdfPage page, Bitmap bitmap, PageOrientations orientation = PageOrientations.Normal, RenderingFlags flags = RenderingFlags.None)
@@ -48,15 +45,19 @@ namespace PDFiumSharp
 			page.Render(bitmap, (0, 0, bitmap.Width, bitmap.Height), orientation, flags);
 		}
 
-		static BitmapFormats GetBitmapFormat(System.Drawing.Bitmap bitmap)
+		static BitmapFormats GetBitmapFormat(Bitmap bitmap)
 		{
-			if (bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
-				return BitmapFormats.FPDFBitmap_BGR;
-			if (bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-				return BitmapFormats.FPDFBitmap_BGRA;
-			if (bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppRgb)
-				return BitmapFormats.FPDFBitmap_BGRx;
-			throw new NotSupportedException($"Pixel format {bitmap.PixelFormat} is not supported.");
-		}
+			switch (bitmap.PixelFormat) 
+            {
+                case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
+                    return BitmapFormats.BGR;
+                case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
+                    return BitmapFormats.BGRA;
+                case System.Drawing.Imaging.PixelFormat.Format32bppRgb:
+                    return BitmapFormats.BGRx;
+                default:
+                    throw new NotSupportedException($"Pixel format {bitmap.PixelFormat} is not supported.");
+            }
+        }
 	}
 }
